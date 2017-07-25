@@ -161,8 +161,8 @@ return function (App $app) {
                         'Σχολείο που υπηρετεί',
                         'Τηλέφωνο Σχολείου',
                         'Σχόλια/Παρατηρήσεις',
-                        'Σχετική δράση που συμμετείχε',
-                        'URL δράσης που συμμετείχε',
+                        // 'Σχετική δράση που συμμετείχε',
+                        // 'URL δράσης που συμμετείχε',
                         'Περιγραφή δράσης που συμμετείχε',
                         'Έργο 1',
                         'Έργο 2',
@@ -255,8 +255,8 @@ return function (App $app) {
                     . '`volunteerteachers`.`school`, '
                     . '`volunteerteachers`.`schooltelef`, '
                     . '`volunteerteachers`.`comments`, '
-                    . '`volunteerteachers`.`projecttitle`, '
-                    . '`volunteerteachers`.`projecturl`, '
+                    // . '`volunteerteachers`.`projecttitle`, '
+                    // . '`volunteerteachers`.`projecturl`, '
                     . '`volunteerteachers`.`projectdescription` '
                     . ' FROM `volunteerteachers` JOIN `branch` ON (`volunteerteachers`.`eidikothta` = `branch`.`id`) '
 //                    . ' FROM `volunteerteachers` '
