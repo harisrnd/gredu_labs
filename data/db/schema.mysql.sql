@@ -25,6 +25,8 @@ CREATE TABLE `applicationform` (
   `received_ts` timestamp NULL,
   `received_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `received_document` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `approved` int(11) unsigned NOT NULL DEFAULT 0,
+  `approved_date` int(11)  unsigned NULL,
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_applicationform_school` (`school_id`),
   CONSTRAINT `c_fk_applicationform_school_id` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -224,7 +226,8 @@ INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES
 (120,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΔΗΜΟΤΙΚΟΥ', 1,20),
 (121,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΓΥΜΝΑΣΙΟΥ', 1,21),
 (122,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΛΥΚΕΙΟΥ', 1,22),
-(123,'ΔΙΑΔΡΑΣΤΙΚΟ ΣΥΣΤΗΜΑ (INTERACTIVE SET)', 1,23);
+(123,'ΔΙΑΔΡΑΣΤΙΚΟ ΣΥΣΤΗΜΑ (INTERACTIVE SET)', 1,23),
+(124,'ΜΟΝΑΔΑ ΑΔΙΑΛΕΙΠΤΗΣ ΠΑΡΟΧΗΣ ΡΕΥΜΑΤΟΣ (UPS)', 1, 24);
 /*!40000 ALTER TABLE `itemcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,9 +404,6 @@ UNLOCK TABLES;
 -- Table structure for table `school`
 --
 
-DROP TABLE IF EXISTS `school`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 DROP TABLE IF EXISTS `school`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -588,7 +588,7 @@ CREATE TABLE `softwarecategory` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 --
@@ -643,7 +643,7 @@ DROP TABLE IF EXISTS `tpesurvey`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tpesurvey` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) unsigned NOT NULL,
+  `teacher_id` int(11) unsigned DEFAULT NULL,
   `already_using_tpe` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `knowledge_level` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `assets_in_use` text COLLATE utf8mb4_unicode_ci,
@@ -663,7 +663,7 @@ CREATE TABLE `tpesurvey` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `teacher_id_UNIQUE` (`teacher_id`),
   KEY `index_foreignkey_tpesurvey_teacher` (`teacher_id`),
-  CONSTRAINT `c_fk_tpesurvey_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `c_fk_tpesurvey_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -675,6 +675,55 @@ LOCK TABLES `tpesurvey` WRITE;
 /*!40000 ALTER TABLE `tpesurvey` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tpesurvey` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Table structure for table `volunteerteachers`
+--
+
+DROP TABLE IF EXISTS `volunteerteachers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `volunteerteachers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `eidikothta` int(11) UNSIGNED,
+  `arithmitroou` int(11) NOT NULL,
+  `telef` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `school` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `schooltelef` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `projectdescription` text COLLATE utf8mb4_unicode_ci,
+  `comments` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `volunteerteachers` ADD CONSTRAINT `fk_branch_id` FOREIGN KEY (`eidikothta`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Table structure for table `univ`
+--
+
+DROP TABLE IF EXISTS `univ`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `univ` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ereunitiko` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `institute` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `other` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `idrima` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `sxolh` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `tmhma` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `person` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telef` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `erga` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `projectdescription` text COLLATE utf8mb4_unicode_ci,
+  `comments` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
